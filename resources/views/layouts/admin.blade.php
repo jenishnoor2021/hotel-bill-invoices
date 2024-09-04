@@ -194,13 +194,15 @@
           <li class="header">MAIN NAVIGATION</li>
           <li class="{{ (request()->segment(2) == 'dashboard') ? 'active' : '' }}"><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
           <li class="{{ (request()->segment(2) == 'invoice') ? 'active' : '' }}"><a href="/admin/invoice"><i class="fa fa-dashboard"></i> <span>Invoice</span></a></li>
+          @if(Session::get('user')['role'] == 'admin')
           <li class="{{ (request()->segment(2) == 'hotel') ? 'active' : '' }}"><a href="/admin/hotel"><i class="fa fa-dashboard"></i> <span>Hotel</span></a></li>
           <li class="{{ (request()->segment(2) == 'setting') ? 'active' : '' }}"><a href="/admin/setting"><i class="fa fa-dashboard"></i> <span>Hotel details</span></a></li>
           <li class="{{ (request()->segment(2) == 'category') ? 'active' : '' }}"><a href="/admin/category"><i class="fa fa-dashboard"></i> <span>Category</span></a></li>
           <li class="{{ (request()->segment(2) == 'room') ? 'active' : '' }}"><a href="/admin/room"><i class="fa fa-dashboard"></i> <span>Room</span></a></li>
           <li class="{{ (request()->segment(2) == 'extra') ? 'active' : '' }}"><a href="/admin/extra"><i class="fa fa-dashboard"></i> <span>Extra Service</span></a></li>
-
+          <li class="{{ (request()->segment(2) == 'users') ? 'active' : '' }}"><a href="/admin/users"><i class="fa fa-dashboard"></i> <span>Users</span></a></li>
           <li class="{{ (request()->segment(1) == 'profile') ? 'active' : '' }}"><a href="/profile/{{Session::get('user')['id']}}"><i class="fa fa-dashboard"></i><span>Change password</span></a></li>
+          @endif
         </ul>
       </section>
       <!-- /.sidebar -->

@@ -70,11 +70,11 @@
                      </div>
                   </div>
                   <div class="form-group">
-                     <label for="total_amount" class="col-sm-2 control-label">Total amount</label>
+                     <label for="amount" class="col-sm-2 control-label">Amount:</label>
                      <div class="col-sm-4">
-                        <input type="number" name="total_amount" id="total_amount" class="form-control border border-dark mb-2" placeholder="Enter with gst amount" value="{{$room->total_amount}}">
-                        @if($errors->has('total_amount'))
-                        <div class="error text-danger">{{ $errors->first('total_amount') }}</div>
+                        <input type="text" class="form-control" name="amount" id="amount" placeholder="Enter without GST amount" value="{{$room->amount}}">
+                        @if($errors->has('amount'))
+                        <div class="error text-danger">{{ $errors->first('amount') }}</div>
                         @endif
                      </div>
                   </div>
@@ -88,14 +88,15 @@
                      </div>
                   </div>
                   <div class="form-group">
-                     <label for="amount" class="col-sm-2 control-label">Amount:</label>
+                     <label for="total_amount" class="col-sm-2 control-label">Total amount</label>
                      <div class="col-sm-4">
-                        <input type="text" class="form-control" name="amount" id="amount" placeholder="Enter without GST amount" value="{{$room->amount}}">
-                        @if($errors->has('amount'))
-                        <div class="error text-danger">{{ $errors->first('amount') }}</div>
+                        <input type="number" name="total_amount" id="total_amount" class="form-control border border-dark mb-2" placeholder="Enter with gst amount" value="{{$room->total_amount}}">
+                        @if($errors->has('total_amount'))
+                        <div class="error text-danger">{{ $errors->first('total_amount') }}</div>
                         @endif
                      </div>
                   </div>
+
                   <div class="form-group">
                      <div class="col-md-3 col-sm-2 control-label">
                         {!! Form::submit('update', ['class'=>'btn btn-success text-white mt-1']) !!}
@@ -145,18 +146,18 @@
    });
 
    function calculateAmount() {
-      var totalAmount = parseFloat(document.getElementById('total_amount').value);
+      var totalAmount = parseFloat(document.getElementById('amount').value);
       var gstPercentage = parseFloat(document.getElementById('gst_percentage').value);
 
-      if (!isNaN(totalAmount) && !isNaN(gstPercentage) && gstPercentage != 0) {
-         var amountWithoutGST = totalAmount / (1 + gstPercentage / 100);
-         document.getElementById('amount').value = amountWithoutGST.toFixed(2);
+      if (!isNaN(totalAmount) && !isNaN(gstPercentage)) {
+         var amountWithGST = totalAmount * (1 + gstPercentage / 100);
+         document.getElementById('total_amount').value = amountWithGST.toFixed(2);
       } else {
-         document.getElementById('amount').value = '';
+         document.getElementById('total_amount').value = '';
       }
    }
 
-   document.getElementById('total_amount').addEventListener('input', calculateAmount);
+   document.getElementById('amount').addEventListener('input', calculateAmount);
    document.getElementById('gst_percentage').addEventListener('input', calculateAmount);
 </script>
 @endsection

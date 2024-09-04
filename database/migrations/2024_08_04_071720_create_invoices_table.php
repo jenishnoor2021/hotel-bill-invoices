@@ -24,6 +24,9 @@ class CreateInvoicesTable extends Migration
             $table->string('guest_email')->nullable();
             $table->string('guest_mobile')->nullable();
             $table->string('guest_gst_no')->nullable();
+            $table->string('guest_gst_name')->nullable();
+            $table->string('check_in')->nullable();
+            $table->string('check_out')->nullable();
             $table->string('invoice_total')->nullable();
             $table->timestamps();
 

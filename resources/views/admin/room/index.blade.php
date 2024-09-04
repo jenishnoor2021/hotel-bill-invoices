@@ -44,9 +44,9 @@
                            <th>Hotel Name</th>
                            <th>Room No</th>
                            <th>Category</th>
-                           <th>Total Amount</th>
-                           <th>GST(%)</th>
                            <th>Amount</th>
+                           <th>GST(%)</th>
+                           <th>Total Amount</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -58,9 +58,9 @@
                         <td>{{$room->hotel->hotel_name}}</td>
                         <td>{{$room->room_no}}</td>
                         <td>{{$room->category->c_name}}</td>
-                        <td>{{$room->total_amount}}</td>
-                        <td>{{$room->gst_percentage}} %</td>
                         <td>{{$room->amount}}</td>
+                        <td>{{$room->gst_percentage}} %</td>
+                        <td>{{$room->total_amount}}</td>
                         </tr>
                         @endforeach
                      </tbody>

@@ -47,7 +47,10 @@
                            <th>Guest name</th>
                            <th>Email</th>
                            <th>Contact no</th>
+                           <th>Check in</th>
+                           <th>Check out</th>
                            <th>GST no</th>
+                           <th>GST name</th>
                            <th>PDF</th>
                         </tr>
                      </thead>
@@ -64,7 +67,10 @@
                            <td>{{$invoice->guest_name1}}</td>
                            <td>{{$invoice->guest_email}}</td>
                            <td>{{$invoice->guest_mobile}}</td>
+                           <td>{{$invoice->check_in}}</td>
+                           <td>{{$invoice->check_out}}</td>
                            <td>{{$invoice->guest_gst_no}}</td>
+                           <td>{{$invoice->guest_gst_name}}</td>
                            <td>
                               @if($invoice->file != '')
                               <a href="{{asset('invoices/'.$invoice->file)}}" target="_blank"><b>PDF</b></a>

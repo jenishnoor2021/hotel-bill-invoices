@@ -8,11 +8,11 @@
    <!-- Content Header (Page header) -->
    <section class="content-header">
       <h1>
-         <b>Hotels</b> &nbsp; <a href="{{route('admin.hotel.create')}}" class="bg-primary text-white text-decoration-none" style="padding:8px 12px;margin-left:15px"><i class="fa fa-plus editable" style="font-size:15px;">&nbsp;ADD</i></a>
+         <b>Users</b> &nbsp; <a href="{{route('admin.users.create')}}" class="bg-primary text-white text-decoration-none" style="padding:8px 12px;margin-left:15px"><i class="fa fa-plus editable" style="font-size:15px;">&nbsp;ADD</i></a>
       </h1>
       <ol class="breadcrumb">
          <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-         <li class="active">Hotels</li>
+         <li class="active">Users</li>
       </ol>
    </section>
    <!-- Main content -->
@@ -33,24 +33,40 @@
                   </div>
                   @endif
                </div>
-               @if(count($hotels)>0)
+               @if(count($users)>0)
                <!-- /.box-header -->
-               <div class="box-body" style="overflow-x:auto;margin-top:5px">
+               <div class="box-body" style="overflow-x:auto;margin-top:15px">
 
-                  <table id="hotelTable" class="table table-bordered table-striped">
+                  <table id="usersTable" class="table table-bordered table-striped">
                      <thead class="bg-primary">
                         <tr>
                            <th>Action</th>
-                           <th>Hotel Name</th>
+                           <th>Name</th>
+                           <th>Email</th>
+                           <th>Username</th>
+                           <th>Active/De-active</th>
                         </tr>
                      </thead>
                      <tbody>
-                        @foreach($hotels as $hotel)
+                        @foreach($users as $user)
                         <td>
-                           <a href="{{route('admin.hotel.edit', $hotel->id)}}"><i class="fa fa-edit" style="font-size:15px;background-color:rgba(255, 255, 255, 0.25);padding:8px;"></i></a>
-                           <!-- <a href="{{route('admin.hotel.destroy', $hotel->id)}}" onclick="return confirm('Sure ! You want to delete reocrd ?');"><i class="fa fa-trash" style="font-size:15px;background-color:rgba(255, 255, 255, 0.25);color:red;padding:8px;"></i></a> -->
+                           <a href="{{route('admin.users.edit', $user->id)}}"><i class="fa fa-edit" style="font-size:15px;background-color:rgba(255, 255, 255, 0.25);padding:8px;"></i></a>
+                           @if($user->role != 'admin')
+                           <a href="{{route('admin.users.destroy', $user->id)}}" onclick="return confirm('Sure ! You want to delete reocrd ?');"><i class="fa fa-trash" style="font-size:15px;background-color:rgba(255, 255, 255, 0.25);color:red;padding:8px;"></i></a>
+                           @endif
                         </td>
-                        <td>{{$hotel->hotel_name}}</td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{$user->username}}</td>
+                        <td>
+                           @if($user->role != 'admin')
+                           @if($user->is_active == 1)
+                           <a href="/admin/users/active/{{$user->id}}" class="btn btn-success">Active</a>
+                           @else
+                           <a href="/admin/users/active/{{$user->id}}" class="btn btn-danger">De-active</a>
+                           @endif
+                           @endif
+                        </td>
                         </tr>
                         @endforeach
                      </tbody>
@@ -77,7 +93,7 @@
 @section('script')
 <script>
    $(document).ready(function() {
-      $("#hotelTable").DataTable();
+      $("#usersTable").DataTable();
    });
 </script>
 @endsection

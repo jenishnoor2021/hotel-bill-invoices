@@ -102,11 +102,39 @@
                      </div>
                   </div>
                   <div class="form-group">
-                     <label for="guest_gst_no" class="col-sm-2 control-label">GST No:</label>
+                     <label for="check_in" class="col-sm-2 control-label">Check in :</label>
                      <div class="col-sm-4">
-                        <input type="text" class="form-control" name="guest_gst_no" id="guest_gst_no" placeholder="Enter Gst No">
+                        <input type="datetime-local" class="form-control" name="check_in" id="check_in">
+                        @if($errors->has('check_in'))
+                        <div class="error text-danger">{{ $errors->first('check_in') }}</div>
+                        @endif
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="check_out" class="col-sm-2 control-label">Check Out :</label>
+                     <div class="col-sm-4">
+                        <input type="datetime-local" class="form-control" name="check_out" id="check_out">
+                        @if($errors->has('check_out'))
+                        <div class="error text-danger">{{ $errors->first('check_out') }}</div>
+                        @endif
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="guest_gst_no" class="col-sm-2 control-label">Customer GST No:</label>
+                     <div class="col-sm-4">
+                        <input type="text" class="form-control" name="guest_gst_no" id="guest_gst_no" placeholder="Enter Gst No" maxlength="15"
+                           oninput="this.value = this.value.toUpperCase()">
                         @if($errors->has('guest_gst_no'))
                         <div class="error text-danger">{{ $errors->first('guest_gst_no') }}</div>
+                        @endif
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="guest_gst_name" class="col-sm-2 control-label">Customer GST Name:</label>
+                     <div class="col-sm-4">
+                        <input type="text" class="form-control" name="guest_gst_name" id="guest_gst_name" placeholder="Enter Gst Name">
+                        @if($errors->has('guest_gst_name'))
+                        <div class="error text-danger">{{ $errors->first('guest_gst_name') }}</div>
                         @endif
                      </div>
                   </div>
@@ -149,6 +177,12 @@
             guest_email: {
                required: true,
             },
+            check_in: {
+               required: true,
+            },
+            check_out: {
+               required: true,
+            },
             guest_mobile: {
                required: true,
             },
@@ -176,5 +210,20 @@
          }
       });
    }
+
+   function validateDates() {
+      const checkIn = new Date(document.getElementById('check_in').value);
+      const checkOut = new Date(document.getElementById('check_out').value);
+
+      if (checkIn && checkOut) {
+         if (checkOut <= checkIn) {
+            alert('Check-out date must be later than check-in date.');
+            document.getElementById('check_out').value = ''; // Clear the invalid check-out value
+         }
+      }
+   }
+
+   document.getElementById('check_in').addEventListener('change', validateDates);
+   document.getElementById('check_out').addEventListener('change', validateDates);
 </script>
 @endsection

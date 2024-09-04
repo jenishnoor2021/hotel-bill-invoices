@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Flight;
+use App\Models\Hotel;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Exports\GenerateExport;
 use App\Models\Morehotel;
@@ -25,9 +27,13 @@ class AdminController extends Controller
             return redirect()->back()->with('alert', 'Username or password is not matched');
             // return "Username or password is not matched";
         } else {
-            Auth::loginUsingId($user->id);
-            $req->session()->put('user', $user);
-            return redirect('/admin/dashboard');
+            if ($user->is_active == 1) {
+                Auth::loginUsingId($user->id);
+                $req->session()->put('user', $user);
+                return redirect('/admin/dashboard');
+            } else {
+                return redirect()->back()->with('alert', 'User is suspended. please contact to administrator');
+            }
         }
     }
 
@@ -39,7 +45,13 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('admin.index');
+        $heaven_count = Invoice::where('hotel_id', 1)->count();
+        $orbit_count = Invoice::where('hotel_id', 2)->count();
+        $olympia_count = Invoice::where('hotel_id', 3)->count();
+        $heaven_amount = Invoice::where('hotel_id', 1)->sum('invoice_total');
+        $orbit_amount = Invoice::where('hotel_id', 2)->sum('invoice_total');
+        $olympia_amount = Invoice::where('hotel_id', 3)->sum('invoice_total');
+        return view('admin.index', compact('heaven_count', 'orbit_count', 'olympia_count', 'heaven_amount', 'orbit_amount', 'olympia_amount'));
     }
 
     public function profiledit($id)
@@ -91,9 +103,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -101,9 +111,7 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
@@ -122,9 +130,7 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-    }
+    public function edit($id) {}
 
     /**
      * Update the specified resource in storage.
@@ -133,9 +139,7 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-    }
+    public function update(Request $request, $id) {}
 
     /**
      * Remove the specified resource from storage.
@@ -143,11 +147,7 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-    }
+    public function destroy($id) {}
 
-    public function deleteAll(Request $request)
-    {
-    }
+    public function deleteAll(Request $request) {}
 }

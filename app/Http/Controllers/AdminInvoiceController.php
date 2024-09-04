@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\Invoicedata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class AdminInvoiceController extends Controller
 {
@@ -23,7 +24,13 @@ class AdminInvoiceController extends Controller
      */
     public function index()
     {
+        $user = Session::get('user');
         $invoices = Invoice::orderBy('id', 'DESC')->get();
+        if ($user->role != 'admin') {
+            $hotel = Hotel::where('hotel_name', $user->role)->first();
+            $invoices = Invoice::where('hotel_id', $hotel->id)->orderBy('id', 'DESC')->get();
+        }
+
         return view('admin.invoice.index', compact('invoices'));
     }
 
@@ -34,7 +41,11 @@ class AdminInvoiceController extends Controller
      */
     public function create()
     {
+        $user = Session::get('user');
         $hotels = Hotel::get();
+        if ($user->role != 'admin') {
+            $hotels = Hotel::where('hotel_name', $user->role)->get();
+        }
         $settings = Setting::get();
         $categorys = Category::get();
         $rooms = Room::get();
@@ -152,7 +163,11 @@ class AdminInvoiceController extends Controller
     {
         $invoice = Invoice::findOrFail($id);
         $invoicedatas = Invoicedata::where('invoice_id', $id)->get();
+        $user = Session::get('user');
         $hotels = Hotel::get();
+        if ($user->role != 'admin') {
+            $hotels = Hotel::where('hotel_name', $user->role)->get();
+        }
         $categorys = Category::get();
         $rooms = Room::where('hotel_id', $invoice->hotel_id)->get();
         $extras = Extra::get();

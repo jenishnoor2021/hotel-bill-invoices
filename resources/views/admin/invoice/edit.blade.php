@@ -174,11 +174,39 @@ use Carbon\Carbon;
                               </div>
                            </div>
                            <div class="form-group">
-                              <label for="guest_gst_no" class="col-sm-2 control-label">GST No:</label>
+                              <label for="check_in" class="col-sm-2 control-label">Check in :</label>
                               <div class="col-sm-4">
-                                 <input type="text" class="form-control" name="guest_gst_no" id="guest_gst_no" placeholder="Enter Gst No" value="{{$invoice->guest_gst_no}}">
+                                 <input type="datetime-local" class="form-control" name="check_in" id="check_in" value="{{ $invoice->check_in }}">
+                                 @if($errors->has('check_in'))
+                                 <div class="error text-danger">{{ $errors->first('check_in') }}</div>
+                                 @endif
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="check_out" class="col-sm-2 control-label">Check Out :</label>
+                              <div class="col-sm-4">
+                                 <input type="datetime-local" class="form-control" name="check_out" id="check_out" value="{{ $invoice->check_out }}">
+                                 @if($errors->has('check_out'))
+                                 <div class="error text-danger">{{ $errors->first('check_out') }}</div>
+                                 @endif
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="guest_gst_no" class="col-sm-2 control-label">Customer GST No:</label>
+                              <div class="col-sm-4">
+                                 <input type="text" class="form-control" name="guest_gst_no" id="guest_gst_no" placeholder="Enter Gst No" value="{{$invoice->guest_gst_no}}" maxlength="15"
+                                    oninput="this.value = this.value.toUpperCase()">
                                  @if($errors->has('guest_gst_no'))
                                  <div class="error text-danger">{{ $errors->first('guest_gst_no') }}</div>
+                                 @endif
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="guest_gst_name" class="col-sm-2 control-label">Customer GST Name:</label>
+                              <div class="col-sm-4">
+                                 <input type="text" class="form-control" name="guest_gst_name" id="guest_gst_name" placeholder="Enter Gst Name" value="{{ $invoice->guest_gst_name }}">
+                                 @if($errors->has('guest_gst_name'))
+                                 <div class="error text-danger">{{ $errors->first('guest_gst_name') }}</div>
                                  @endif
                               </div>
                            </div>
@@ -193,6 +221,8 @@ use Carbon\Carbon;
                      </div>
                   </div>
                </div>
+
+               <a href="#" class="btn btn-success" onclick="location.reload(); return false;">New</a>
 
                <div class="box-body" id="addInvoiceDetail">
 
@@ -215,21 +245,9 @@ use Carbon\Carbon;
 
                      <div id="room_select" style="display:none;">
                         <div class="col-sm-2">
-                           <label for="room_no" class="control-label">Room Number :</label>
-                           <select name="room_no" id="room_no" class="custom-select form-control form-control-rounded" onchange="getRoomDetail(this.value)">
-                              <option value="">Select type</option>
-                              @foreach($rooms as $room)
-                              <option value="{{$room->id}}">{{$room->room_no}}</option>
-                              @endforeach
-                           </select>
-                           @if($errors->has('room_no'))
-                           <div class="error text-danger">{{ $errors->first('room_no') }}</div>
-                           @endif
-                        </div>
-                        <div class="col-sm-2">
                            <label for="category_id" class="control-label">Category:</label>
-                           <select name="category_id" id="category_id" class="custom-select form-control form-control-rounded">
-                              <option value="">Select type</option>
+                           <select name="category_id" id="category_id" class="custom-select form-control form-control-rounded" onchange="filterRooms(this.value)">
+                              <option value="">Select category</option>
                               @foreach($categorys as $category)
                               <option value="{{$category->id}}">{{$category->c_name}}</option>
                               @endforeach
@@ -238,7 +256,19 @@ use Carbon\Carbon;
                            <div class="error text-danger">{{ $errors->first('category_id') }}</div>
                            @endif
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
+                           <label for="room_no" class="control-label">Room Number :</label>
+                           <select name="room_no" id="room_no" class="custom-select form-control form-control-rounded" onchange="getRoomDetail(this.value)">
+                              <option value="">Select type</option>
+                              @foreach($rooms as $room)
+                              <option value="{{$room->id}}" data-category="{{ $room->category_id }}">{{$room->room_no}}</option>
+                              @endforeach
+                           </select>
+                           @if($errors->has('room_no'))
+                           <div class="error text-danger">{{ $errors->first('room_no') }}</div>
+                           @endif
+                        </div>
+                        <!-- <div class="col-sm-3">
                            <label for="check_in" class="control-label">Check in :</label>
                            <input type="datetime-local" class="form-control" name="check_in" id="check_in">
                            @if($errors->has('check_in'))
@@ -251,7 +281,7 @@ use Carbon\Carbon;
                            @if($errors->has('check_out'))
                            <div class="error text-danger">{{ $errors->first('check_out') }}</div>
                            @endif
-                        </div>
+                        </div> -->
                      </div>
 
                      <div id="extra_select" style="display:none;">
@@ -272,7 +302,7 @@ use Carbon\Carbon;
 
                   <div class="form-group row">
                      <div class="col-sm-2">
-                        <label for="days" class="control-label">No. of days/quntity:</label>
+                        <label for="days" class="control-label">No. of days/Quntity:</label>
                         <input type="number" class="form-control" name="days" id="days" placeholder="Enter days" oninput="calculateAmounts()" required>
                         @if($errors->has('days'))
                         <div class="error text-danger">{{ $errors->first('days') }}</div>
@@ -280,21 +310,21 @@ use Carbon\Carbon;
                      </div>
                      <div class="col-sm-2">
                         <label for="amount" class="control-label">Amount :</label>
-                        <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter amount" required>
+                        <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter amount" required readonly>
                         @if($errors->has('amount'))
                         <div class="error text-danger">{{ $errors->first('amount') }}</div>
                         @endif
                      </div>
                      <div class="col-sm-2">
                         <label for="gst_percentage" class="control-label">GST :</label>
-                        <input type="number" class="form-control" name="gst_percentage" id="gst_percentage" placeholder="Enter amount" required>
+                        <input type="number" class="form-control" name="gst_percentage" id="gst_percentage" placeholder="Enter amount" required readonly>
                         @if($errors->has('gst_percentage'))
                         <div class="error text-danger">{{ $errors->first('gst_percentage') }}</div>
                         @endif
                      </div>
                      <div class="col-sm-2">
                         <label for="total_amount" class="control-label">Total :</label>
-                        <input type="number" class="form-control" name="total_amount" id="total_amount" placeholder="Enter Total amout" required>
+                        <input type="number" class="form-control" name="total_amount" id="total_amount" placeholder="Enter Total amout" oninput="changeTotal()" required>
                         @if($errors->has('total_amount'))
                         <div class="error text-danger">{{ $errors->first('total_amount') }}</div>
                         @endif
@@ -330,21 +360,9 @@ use Carbon\Carbon;
 
                      <div id="edit_room_select{{$invoicedata->id}}" style="display:none;">
                         <div class="col-sm-2">
-                           <label for="room_no" class="control-label">Room Number :</label>
-                           <select name="room_no" id="room_no{{$invoicedata->id}}" class="custom-select form-control form-control-rounded" onchange="editgetRoomDetail(this.value,{{$invoicedata->id}})">
-                              <option value="">Select type</option>
-                              @foreach($rooms as $room)
-                              <option value="{{$room->id}}" {{ $invoicedata->room_no == $room->id ? 'selected' : '' }}>{{$room->room_no}}</option>
-                              @endforeach
-                           </select>
-                           @if($errors->has('room_no'))
-                           <div class="error text-danger">{{ $errors->first('room_no') }}</div>
-                           @endif
-                        </div>
-                        <div class="col-sm-2">
                            <label for="category_id" class="control-label">Category:</label>
-                           <select name="category_id" id="category_id{{$invoicedata->id}}" class="custom-select form-control form-control-rounded">
-                              <option value="">Select type</option>
+                           <select name="category_id" id="category_id{{$invoicedata->id}}" onchange="editfilterRooms(this.value,{{$invoicedata->id}})" class="custom-select form-control form-control-rounded">
+                              <option value="">Select category</option>
                               @foreach($categorys as $category)
                               <option value="{{$category->id}}" {{($category->id == $invoicedata->category_id) ? 'selected' : '' }}>{{$category->c_name}}</option>
                               @endforeach
@@ -354,6 +372,18 @@ use Carbon\Carbon;
                            @endif
                         </div>
                         <div class="col-sm-2">
+                           <label for="room_no" class="control-label">Room Number :</label>
+                           <select name="room_no" id="room_no{{$invoicedata->id}}" class="custom-select form-control form-control-rounded" onchange="editgetRoomDetail(this.value,{{$invoicedata->id}})">
+                              <option value="">Select type</option>
+                              @foreach($rooms as $room)
+                              <option value="{{$room->id}}" data-category="{{ $room->category_id }}" {{ $invoicedata->room_no == $room->id ? 'selected' : '' }}>{{$room->room_no}}</option>
+                              @endforeach
+                           </select>
+                           @if($errors->has('room_no'))
+                           <div class="error text-danger">{{ $errors->first('room_no') }}</div>
+                           @endif
+                        </div>
+                        <!-- <div class="col-sm-2">
                            <label for="check_in" class="control-label">Check in :</label>
                            <input type="datetime-local" class="form-control" name="check_in" id="check_in{{$invoicedata->id}}" value="{{ $invoicedata->check_in }}">
                            @if($errors->has('check_in'))
@@ -366,7 +396,7 @@ use Carbon\Carbon;
                            @if($errors->has('check_out'))
                            <div class="error text-danger">{{ $errors->first('check_out') }}</div>
                            @endif
-                        </div>
+                        </div> -->
                      </div>
 
                      <div id="edit_extra_select{{$invoicedata->id}}" style="display:none;">
@@ -395,21 +425,21 @@ use Carbon\Carbon;
                      </div>
                      <div class="col-sm-2">
                         <label for="amount" class="control-label">Amount :</label>
-                        <input type="text" class="form-control" name="amount" id="amount{{$invoicedata->id}}" placeholder="Enter amount" value="{{ $invoicedata->amount }}" required>
+                        <input type="text" class="form-control" name="amount" id="amount{{$invoicedata->id}}" placeholder="Enter amount" value="{{ $invoicedata->amount }}" required readonly>
                         @if($errors->has('amount'))
                         <div class="error text-danger">{{ $errors->first('amount') }}</div>
                         @endif
                      </div>
                      <div class="col-sm-2">
                         <label for="gst_percentage" class="control-label">GST :</label>
-                        <input type="number" class="form-control" name="gst_percentage" id="gst_percentage{{$invoicedata->id}}" placeholder="Enter amount" value="{{ $invoicedata->gst_percentage }}" required>
+                        <input type="number" class="form-control" name="gst_percentage" id="gst_percentage{{$invoicedata->id}}" placeholder="Enter amount" value="{{ $invoicedata->gst_percentage }}" required readonly>
                         @if($errors->has('gst_percentage'))
                         <div class="error text-danger">{{ $errors->first('gst_percentage') }}</div>
                         @endif
                      </div>
                      <div class="col-sm-2">
                         <label for="total_amount" class="control-label">Total :</label>
-                        <input type="text" class="form-control" name="total_amount" id="total_amount{{$invoicedata->id}}" placeholder="Enter Total amout" value="{{ $invoicedata->total_amount }}" required>
+                        <input type="text" class="form-control" name="total_amount" id="total_amount{{$invoicedata->id}}" placeholder="Enter Total amout" value="{{ $invoicedata->total_amount }}" oninput="editchangeTotal({{$invoicedata->id}})" required>
                         @if($errors->has('total_amount'))
                         <div class="error text-danger">{{ $errors->first('total_amount') }}</div>
                         @endif
@@ -446,8 +476,8 @@ use Carbon\Carbon;
                            <th>Category</th>
                            <th>Extra service</th>
                            <th>Days</th>
-                           <th>Check in</th>
-                           <th>Check out</th>
+                           <!-- <th>Check in</th>
+                           <th>Check out</th> -->
                            <th>Amount</th>
                            <th>GST</th>
                            <th>Total Amount</th>
@@ -482,8 +512,8 @@ use Carbon\Carbon;
                            <td>{{$category_name}}</td>
                            <td>{{$extra_name}}</td>
                            <td>{{$invoicedata->days}}</td>
-                           <td>{{$invoicedata->check_in}}</td>
-                           <td>{{$invoicedata->check_out}}</td>
+                           <!-- <td>{{$invoicedata->check_in}}</td>
+                           <td>{{$invoicedata->check_out}}</td> -->
                            <td>{{$invoicedata->amount}}</td>
                            <td>{{$invoicedata->gst_percentage}}</td>
                            <td>{{$invoicedata->total_amount}}</td>
@@ -493,8 +523,8 @@ use Carbon\Carbon;
                            <td></td>
                            <td></td>
                            <td></td>
-                           <td></td>
-                           <td></td>
+                           <!-- <td></td>
+                           <td></td> -->
                            <td></td>
                            <td></td>
                            <td></td>
@@ -537,6 +567,12 @@ use Carbon\Carbon;
                required: true,
             },
             guest_email: {
+               required: true,
+            },
+            check_in: {
+               required: true,
+            },
+            check_out: {
                required: true,
             },
             guest_mobile: {
@@ -604,6 +640,7 @@ use Carbon\Carbon;
          }
       });
    });
+
    $(document).ready(function() {
       // Toggle accordion content and arrow rotation when clicking on the header
       $('.accordion-header').click(function() {
@@ -617,6 +654,21 @@ use Carbon\Carbon;
       });
    });
 
+   function validateDates() {
+      const checkIn = new Date(document.getElementById('check_in').value);
+      const checkOut = new Date(document.getElementById('check_out').value);
+
+      if (checkIn && checkOut) {
+         if (checkOut <= checkIn) {
+            alert('Check-out date must be later than check-in date.');
+            document.getElementById('check_out').value = ''; // Clear the invalid check-out value
+         }
+      }
+   }
+
+   document.getElementById('check_in').addEventListener('change', validateDates);
+   document.getElementById('check_out').addEventListener('change', validateDates);
+
    function toggleSelectDivs(type) {
       if (type === 'room') {
          document.getElementById('room_select').style.display = 'block';
@@ -627,6 +679,50 @@ use Carbon\Carbon;
       } else {
          document.getElementById('room_select').style.display = 'none';
          document.getElementById('extra_select').style.display = 'none';
+      }
+   }
+
+   function filterRooms(category_id) {
+      const selectedCategory = category_id;
+      const roomSelect = document.getElementById('room_no');
+      const roomOptions = roomSelect.querySelectorAll('option');
+
+      if (selectedCategory === '') {
+         roomOptions.forEach(option => {
+            option.style.display = '';
+         });
+      } else {
+         roomOptions.forEach(option => {
+            if (option.getAttribute('data-category') === selectedCategory) {
+               option.style.display = '';
+            } else {
+               option.style.display = 'none';
+            }
+         });
+
+         roomSelect.value = '';
+      }
+   }
+
+   function editfilterRooms(category_id, id) {
+      const selectedCategory = category_id;
+      const roomSelect = document.getElementById('room_no' + id);
+      const roomOptions = roomSelect.querySelectorAll('option');
+
+      if (selectedCategory === '') {
+         roomOptions.forEach(option => {
+            option.style.display = '';
+         });
+      } else {
+         roomOptions.forEach(option => {
+            if (option.getAttribute('data-category') === selectedCategory) {
+               option.style.display = '';
+            } else {
+               option.style.display = 'none';
+            }
+         });
+
+         roomSelect.value = '';
       }
    }
 
@@ -645,20 +741,21 @@ use Carbon\Carbon;
                console.error(response.error);
             } else {
                // Update room details
-               $('#category_id').val(response.category_id);
+               // $('#category_id').val(response.category_id);
                $('#amount').val(response.amount);
                $('#gst_percentage').val(response.gst_percentage);
                $('#total_amount').val(response.total_amount);
+               $('#days').val(1);
 
                // Set the selected category name
-               let categorySelect = $('#category_id');
-               categorySelect.empty(); // Clear current options
-               categorySelect.append('<option value="">Select Category</option>');
+               // let categorySelect = $('#category_id');
+               // categorySelect.empty(); // Clear current options
+               // categorySelect.append('<option value="">Select Category</option>');
 
-               response.categories.forEach(category => {
-                  let selected = category.id == response.category_id ? 'selected' : '';
-                  categorySelect.append(`<option value="${category.id}" ${selected}>${category.c_name}</option>`);
-               });
+               // response.categories.forEach(category => {
+               //    let selected = category.id == response.category_id ? 'selected' : '';
+               //    categorySelect.append(`<option value="${category.id}" ${selected}>${category.c_name}</option>`);
+               // });
             }
          },
          error: function(xhr, status, error) {
@@ -686,16 +783,17 @@ use Carbon\Carbon;
                $('#amount' + id).val(response.amount);
                $('#gst_percentage' + id).val(response.gst_percentage);
                $('#total_amount' + id).val(response.total_amount);
+               $('#days' + id).val(1);
 
                // Set the selected category name
-               let categorySelect = $('#category_id' + id);
-               categorySelect.empty(); // Clear current options
-               categorySelect.append('<option value="">Select Category</option>');
+               // let categorySelect = $('#category_id' + id);
+               // categorySelect.empty(); // Clear current options
+               // categorySelect.append('<option value="">Select Category</option>');
 
-               response.categories.forEach(category => {
-                  let selected = category.id == response.category_id ? 'selected' : '';
-                  categorySelect.append(`<option value="${category.id}" ${selected}>${category.c_name}</option>`);
-               });
+               // response.categories.forEach(category => {
+               //    let selected = category.id == response.category_id ? 'selected' : '';
+               //    categorySelect.append(`<option value="${category.id}" ${selected}>${category.c_name}</option>`);
+               // });
             }
          },
          error: function(xhr, status, error) {
@@ -722,6 +820,7 @@ use Carbon\Carbon;
                $('#amount').val(response.amount);
                $('#gst_percentage').val(response.gst_percentage);
                $('#total_amount').val(response.total_amount);
+               $('#days').val(1);
             }
          },
          error: function(xhr, status, error) {
@@ -748,6 +847,7 @@ use Carbon\Carbon;
                $('#amount' + id).val(response.amount);
                $('#gst_percentage' + id).val(response.gst_percentage);
                $('#total_amount' + id).val(response.total_amount);
+               $('#days' + id).val(1);
             }
          },
          error: function(xhr, status, error) {
@@ -790,6 +890,36 @@ use Carbon\Carbon;
 
       // Update the total_amount field
       document.getElementById('total_amount' + id).value = totalAmount.toFixed(2);
+   }
+
+   function changeTotal() {
+      // Get the manually entered total amount
+      const totalAmount = parseFloat(document.getElementById('total_amount').value) || 0;
+
+      // Get the GST percentage and ensure it's valid
+      const gstPercentage = parseFloat(document.getElementById('gst_percentage').value) || 0;
+
+      // Recalculate the amount based on the new total and GST
+      const totalBeforeGst = totalAmount / (1 + (gstPercentage / 100));
+      const amountPerDay = totalBeforeGst / (parseFloat(document.getElementById('days').value) || 1);
+
+      // Update the amount field (assuming it's per day)
+      document.getElementById('amount').value = amountPerDay.toFixed(2);
+   }
+
+   function editchangeTotal(id) {
+      // Get the manually entered total amount
+      const totalAmount = parseFloat(document.getElementById('total_amount' + id).value) || 0;
+
+      // Get the GST percentage and ensure it's valid
+      const gstPercentage = parseFloat(document.getElementById('gst_percentage' + id).value) || 0;
+
+      // Recalculate the amount based on the new total and GST
+      const totalBeforeGst = totalAmount / (1 + (gstPercentage / 100));
+      const amountPerDay = totalBeforeGst / (parseFloat(document.getElementById('days' + id).value) || 1);
+
+      // Update the amount field (assuming it's per day)
+      document.getElementById('amount' + id).value = amountPerDay.toFixed(2);
    }
 
    function editfun(element) {

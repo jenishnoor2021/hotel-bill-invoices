@@ -42,9 +42,9 @@
                         <tr>
                            <th>Action</th>
                            <th>Name</th>
-                           <th>Total Amount</th>
-                           <th>GST(%)</th>
                            <th>Amount</th>
+                           <th>GST(%)</th>
+                           <th>Total Amount</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -54,9 +54,9 @@
                            <a href="{{route('admin.extra.destroy', $extra->id)}}" onclick="return confirm('Sure ! You want to delete reocrd ?');"><i class="fa fa-trash" style="font-size:15px;background-color:rgba(255, 255, 255, 0.25);color:red;padding:8px;"></i></a>
                         </td>
                         <td>{{$extra->name}}</td>
-                        <td>{{$extra->total_amount}}</td>
-                        <td>{{$extra->gst_percentage}} %</td>
                         <td>{{$extra->amount}}</td>
+                        <td>{{$extra->gst_percentage}} %</td>
+                        <td>{{$extra->total_amount}}</td>
                         </tr>
                         @endforeach
                      </tbody>

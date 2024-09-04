@@ -74,7 +74,8 @@
                   <div class="form-group">
                      <label for="gst_no" class="col-sm-2 control-label">GST No:</label>
                      <div class="col-sm-4">
-                        <input type="text" class="form-control" name="gst_no" id="gst_no" placeholder="Enter Gst No">
+                        <input type="text" class="form-control" name="gst_no" id="gst_no" placeholder="Enter Gst No" maxlength="15"
+                           oninput="this.value = this.value.toUpperCase()">
                         @if($errors->has('gst_no'))
                         <div class="error text-danger">{{ $errors->first('gst_no') }}</div>
                         @endif
