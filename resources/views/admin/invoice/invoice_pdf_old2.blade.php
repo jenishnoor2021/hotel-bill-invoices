@@ -8,11 +8,7 @@ use Carbon\Carbon;
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-
-
-<!-- Mirrored from ivonne-seven.vercel.app/gst-invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 23 Mar 2025 11:09:25 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
 <head>
   <!-- Meta Tags -->
@@ -21,7 +17,7 @@ use Carbon\Carbon;
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="ThemeMarch">
   <!-- Site Title -->
-  <title>GST Invoice</title>
+  <title>Invoice</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap");
 
@@ -36,63 +32,24 @@ use Carbon\Carbon;
       -webkit-text-size-adjust: 100%;
     }
 
-
-    /* Sections
-   ========================================================================== */
-
-
-    /**
- * Remove the margin in all browsers.
- */
-
     body {
       margin: 0;
     }
 
-
-    /**
- * Render the `main` element consistently in IE.
- */
-
     main {
       display: block;
     }
-
-
-    /**
- * Correct the font size and margin on `h1` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
 
     h1 {
       font-size: 2em;
       margin: 0.67em 0;
     }
 
-
-    /* Grouping content
-   ========================================================================== */
-
-
-    /**
- * 1. Add the correct box sizing in Firefox.
- * 2. Show the overflow in Edge and IE.
- */
-
     hr {
       box-sizing: content-box;
-      /* 1 */
       height: 0;
-      /* 1 */
       overflow: visible;
-      /* 2 */
     }
-
-
-    /**
- * 1. Correct the inheritance and scaling of font size in all browsers.
- * 2. Correct the odd `em` font sizing in all browsers.
- */
 
     pre {
       font-family: monospace, monospace;
@@ -101,24 +58,9 @@ use Carbon\Carbon;
       /* 2 */
     }
 
-
-    /* Text-level semantics
-   ========================================================================== */
-
-
-    /**
- * Remove the gray background on active links in IE 10.
- */
-
     a {
       background-color: transparent;
     }
-
-
-    /**
- * 1. Remove the bottom border in Chrome 57-
- * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
- */
 
     abbr[title] {
       border-bottom: none;
@@ -130,21 +72,10 @@ use Carbon\Carbon;
       /* 2 */
     }
 
-
-    /**
- * Add the correct font weight in Chrome, Edge, and Safari.
- */
-
     b,
     strong {
       font-weight: bolder;
     }
-
-
-    /**
- * 1. Correct the inheritance and scaling of font size in all browsers.
- * 2. Correct the odd `em` font sizing in all browsers.
- */
 
     code,
     kbd,
@@ -155,20 +86,9 @@ use Carbon\Carbon;
       /* 2 */
     }
 
-
-    /**
- * Add the correct font size in all browsers.
- */
-
     small {
       font-size: 80%;
     }
-
-
-    /**
- * Prevent `sub` and `sup` elements from affecting the line height in
- * all browsers.
- */
 
     sub,
     sup {
@@ -186,28 +106,9 @@ use Carbon\Carbon;
       top: -0.5em;
     }
 
-
-    /* Embedded content
-   ========================================================================== */
-
-
-    /**
- * Remove the border on images inside links in IE 10.
- */
-
     img {
       border-style: none;
     }
-
-
-    /* Forms
-   ========================================================================== */
-
-
-    /**
- * 1. Change the font styles in all browsers.
- * 2. Remove the margin in Firefox and Safari.
- */
 
     button,
     input,
@@ -224,23 +125,11 @@ use Carbon\Carbon;
       /* 2 */
     }
 
-
-    /**
- * Show the overflow in IE.
- * 1. Show the overflow in Edge.
- */
-
     button,
     input {
       /* 1 */
       overflow: visible;
     }
-
-
-    /**
- * Remove the inheritance of text transform in Edge, Firefox, and IE.
- * 1. Remove the inheritance of text transform in Firefox.
- */
 
     button,
     select {
@@ -248,22 +137,12 @@ use Carbon\Carbon;
       text-transform: none;
     }
 
-
-    /**
- * Correct the inability to style clickable types in iOS and Safari.
- */
-
     button,
     [type=button],
     [type=reset],
     [type=submit] {
       -webkit-appearance: button;
     }
-
-
-    /**
- * Remove the inner border and padding in Firefox.
- */
 
     button::-moz-focus-inner,
     [type=button]::-moz-focus-inner,
@@ -274,10 +153,6 @@ use Carbon\Carbon;
     }
 
 
-    /**
- * Restore the focus styles unset by the previous rule.
- */
-
     button:-moz-focusring,
     [type=button]:-moz-focusring,
     [type=reset]:-moz-focusring,
@@ -286,21 +161,9 @@ use Carbon\Carbon;
     }
 
 
-    /**
- * Correct the padding in Firefox.
- */
-
     fieldset {
       padding: 0.35em 0.75em 0.625em;
     }
-
-
-    /**
- * 1. Correct the text wrapping in Edge and IE.
- * 2. Correct the color inheritance from `fieldset` elements in IE.
- * 3. Remove the padding so developers are not caught out when they zero out
- *    `fieldset` elements in all browsers.
- */
 
     legend {
       box-sizing: border-box;
@@ -317,29 +180,13 @@ use Carbon\Carbon;
       /* 1 */
     }
 
-
-    /**
- * Add the correct vertical alignment in Chrome, Firefox, and Opera.
- */
-
     progress {
       vertical-align: baseline;
     }
 
-
-    /**
- * Remove the default vertical scrollbar in IE 10+.
- */
-
     textarea {
       overflow: auto;
     }
-
-
-    /**
- * 1. Add the correct box sizing in IE 10.
- * 2. Remove the padding in IE 10.
- */
 
     [type=checkbox],
     [type=radio] {
@@ -349,21 +196,10 @@ use Carbon\Carbon;
       /* 2 */
     }
 
-
-    /**
- * Correct the cursor style of increment and decrement buttons in Chrome.
- */
-
     [type=number]::-webkit-inner-spin-button,
     [type=number]::-webkit-outer-spin-button {
       height: auto;
     }
-
-
-    /**
- * 1. Correct the odd appearance in Chrome and Safari.
- * 2. Correct the outline style in Safari.
- */
 
     [type=search] {
       -webkit-appearance: textfield;
@@ -373,19 +209,9 @@ use Carbon\Carbon;
     }
 
 
-    /**
- * Remove the inner padding in Chrome and Safari on macOS.
- */
-
     [type=search]::-webkit-search-decoration {
       -webkit-appearance: none;
     }
-
-
-    /**
- * 1. Correct the inability to style clickable types in iOS and Safari.
- * 2. Change font properties to `inherit` in Safari.
- */
 
     ::-webkit-file-upload-button {
       -webkit-appearance: button;
@@ -394,54 +220,23 @@ use Carbon\Carbon;
       /* 2 */
     }
 
-
-    /* Interactive
-   ========================================================================== */
-
-
-    /*
- * Add the correct display in Edge, IE 10+, and Firefox.
- */
-
     details {
       display: block;
     }
-
-
-    /*
- * Add the correct display in all browsers.
- */
 
     summary {
       display: list-item;
     }
 
 
-    /* Misc
-   ========================================================================== */
-
-
-    /**
- * Add the correct display in IE 10+.
- */
-
     template {
       display: none;
     }
 
 
-    /**
- * Add the correct display in IE 10.
- */
-
     [hidden] {
       display: none;
     }
-
-
-    /*--------------------------------------------------------------
-2. Typography
-----------------------------------------------------------------*/
 
     body,
     html {
@@ -451,7 +246,7 @@ use Carbon\Carbon;
       font-weight: 400;
       line-height: 1.5em;
       overflow-x: hidden;
-      /* background-color: #f5f7ff; */
+      /*background-color: #f5f7ff;*/
     }
 
     h1,
@@ -605,11 +400,6 @@ use Carbon\Carbon;
       background-color: #777777;
       border-radius: 5px;
     }
-
-
-    /*--------------------------------------------------------------
-3. Invoice General Style
-----------------------------------------------------------------*/
 
     .cs-f10 {
       font-size: 10px;
@@ -877,6 +667,7 @@ use Carbon\Carbon;
 
     .cs-mr28 {
       margin-right: 28px;
+      width: 200px;
     }
 
     .cs-mt30 {
@@ -1034,7 +825,7 @@ use Carbon\Carbon;
     }
 
     .cs-dip_green_color {
-      color: #000;
+      color: #2AD19D;
     }
 
     .cs-ternary_color {
@@ -1127,6 +918,11 @@ use Carbon\Carbon;
 
     .cs-invoice.cs-style1.padding_40 {
       padding: 40px;
+    }
+
+    .cs-invoice.cs-style1 .cs-invoice_head {
+      display: flex;
+      justify-content: space-between;
     }
 
     .cs-invoice.cs-style1 .cs-invoice_head.cs-type1 {
@@ -1271,7 +1067,7 @@ use Carbon\Carbon;
       left: 4px;
       top: 50%;
       transform: translateY(-50%);
-      /* background-color: #eaeaea; */
+      background-color: #eaeaea;
     }
 
     .cs-bar_list li {
@@ -1284,7 +1080,7 @@ use Carbon\Carbon;
       height: 10px;
       width: 10px;
       border-radius: 50%;
-      /* background-color: #eaeaea; */
+      background-color: #eaeaea;
       position: absolute;
       left: 0;
       top: 6px;
@@ -1295,7 +1091,7 @@ use Carbon\Carbon;
     }
 
     .cs-table.cs-style1.cs-type1 {
-      padding: 10px 15px;
+      padding: 10px 30px;
     }
 
     .cs-table.cs-style1.cs-type1 tr:first-child td {
@@ -1412,7 +1208,7 @@ use Carbon\Carbon;
       content: "";
       height: 52px;
       width: 1px;
-      /* background-color: #eaeaea; */
+      background-color: #eaeaea;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -1586,7 +1382,7 @@ use Carbon\Carbon;
 
     .tm-border-1px {
       height: 1px;
-      /* background-color: #ececef; */
+      background-color: #ececef;
     }
 
     .tm-border-none tr:not(:first-child) {
@@ -1776,6 +1572,12 @@ use Carbon\Carbon;
       justify-content: center;
     }
 
+    .cs-padding-outside {
+      border: 1px dashed #ececef;
+      padding: 30px 0px;
+      border-radius: 5px;
+    }
+
     .space-between {
       justify-content: space-between;
     }
@@ -1843,7 +1645,7 @@ use Carbon\Carbon;
     .cs-fuss {
       width: 1px;
       height: 20px;
-      /* background-color: #ececef; */
+      background-color: #ececef;
       margin: 0px 20px;
     }
 
@@ -1854,16 +1656,6 @@ use Carbon\Carbon;
 
     .copybtn {
       cursor: pointer;
-    }
-
-    tr td,
-    tr th {
-      border-right: 1px solid #eaeaea !important;
-    }
-
-    tr td:last-child,
-    tr th:last-child {
-      border-right: none !important;
     }
 
     @media (max-width: 767px) {
@@ -1997,6 +1789,10 @@ use Carbon\Carbon;
         overflow: hidden;
       }
     }
+
+    .cs-invoice_number {
+      font-size: 14px;
+    }
   </style>
 </head>
 
@@ -2004,87 +1800,110 @@ use Carbon\Carbon;
   <div class="cs-container">
     <div class="cs-invoice cs-style1">
       <div class="cs-invoice_in" id="download_section">
-        <table class="cs-invoice_head cs-type1 cs-mb25 column border-bottom-none" style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="width: 70%; vertical-align: top; border: none !important;padding:0;">
-              <table style="width: 100%;">
-                <tr>
-                  <td style="width: 100px; border: none !important;padding:0;">
-                    <img src="https://hotelbill.sevenstepsschool.org/images/LOGO.png" alt="Logo" style="width: 100px;">
-                  </td>
-                  <td style="border: none !important;padding:0;">
-                    <p class="cs-primary_color" style="margin: 0; font-size: 25px;">&nbsp;&nbsp;<b>Parth Enterprise</b></p>
-                    <table>
-                      <tr>
-                        <td class="cs-primary_color" style="border: none !important;padding:0;">&nbsp;&nbsp;&nbsp;<b>GSTIN:</b>4828E9B55BD92X6</td>
-                      </tr>
-                      <!--<tr>-->
-                      <!--  <td class="cs-primary_color" style="padding-right: 15px; border: none !important;padding:0;"><b>GST Name:</b>{{$hoteldetail->gst_name}}</td>-->
-                      <!--</tr>-->
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-            <td style="text-align: right; vertical-align: top; border: none !important;padding:0;">
-              <table style="width: 100%;">
-                <tr>
-                  <td style="text-align: right; border: none !important;font-size:25px;"><b>{{$hotel->hotel_name}}</b></td>
-                </tr>
-                <tr>
-                  <td style="text-align: right; border: none !important;padding:0;">
-                    <b>Address:</b> {{ $hoteldetail->address }}
-                  </td>
-                </tr>
-                <tr>
-                  <td style="text-align: right; border: none !important;padding:0;">
-                    <b>Contact No:</b> {{$hoteldetail->contact}}
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
+        <div class="cs-invoice_head cs-type1 cs-mb25 column border-bottom-none">
+          <table class="header">
+            <tr>
+              <!--<td width="25%">-->
+              <!--  <div class="cs-logo cs-mb5 cs-mr20"><img src="assets/img/logo.svg" alt="Logo"></div>-->
+              <!--</td>-->
+              <td width="40%">
+                <div class="cs-ml22">
+                  <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16">
+                    <b class="cs-primary_color" style="margin-left:250px;display:block;width:100%;margin-bottom:40px;font-size:22px;">Hotel in {{$hotel->hotel_name}}</b>
+                  </div>
+                  <div
+                    class="cs-invoice_number cs-primary_color cs-mb0 cs-f16 display-flex space-between  gap-20">
+                    <p class="cs-mb0 cs-primary_color cs-mr15"><b>GSTIN:</b></p>
+                    <p class="cs-mb0">{{$hoteldetail->gst_no}}</p>
+                    <p class="cs-mb0 cs-primary_color cs-mr15"><b>GST Name:</b></p>
+                    <p class="cs-mb0">{{$hoteldetail->gst_name}}</p>
+                  </div>
+                  <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex space-between ">
+                    <p class="cs-primary_color cs-mb0"><b>Address:</b></p>
+                    <p class="cs-mb0 cs-mr28">{{ $hoteldetail->address }}</p>
+                  </div>
+                </div>
+              </td>
+              @php
+              $formattedDateTime = Carbon::parse($invoice->check_in)->format('d-m-Y g:i A');
+              $formattedDateTimeout = Carbon::parse($invoice->check_out)->format('d-m-Y g:i A');
+              @endphp
+              <td width="35%" style="vertical-align:top;padding-top:60px;">
+                <div class="cs-invoice_right cs-text_right">
+                  <div
+                    class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex justify-content-flex-end">
+                    <!-- <p class="cs-primary_color"><b>Total:</b></p>
+                          <p class="cs-mb0">$ 5,670.00</p> -->
+                  </div>
+                  <div
+                    class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex justify-content-flex-end">
+                    <p class="cs-primary_color cs-mb0"><b>Invoice Date:</b></p>
+                    <p class="cs-mb0">{{$invoice->invoice_date}}</p>
+                  </div>
+                  <div
+                    class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex justify-content-flex-end">
+                    <p class="cs-primary_color cs-mb0"><b>Invoice No:</b></p>
+                    <p class="cs-mb0">{{ $invoice->invoice_no }}</p>
+                  </div>
+                  <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex space-between">
+                    <p class="cs-primary_color cs-mb0"><b>Email:</b></p>
+                    <p class="cs-mb0 cs-mr15" style="margin-right:auto;">{{$hoteldetail->email}}</p>
+                  </div>
+                  <div class="cs-invoice_number cs-primary_color cs-mb0 cs-f16  display-flex space-between">
+                    <p class="cs-primary_color cs-mb0"><b>Contact:</b></p>
+                    <p class="cs-mb0 cs-mr15" style="margin-right:auto;">{{$hoteldetail->contact}}</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="display-flex cs-text_center">
+          <div class="cs-border-1"></div>
+          <h5 class="cs-width_12 cs-dip_green_color" style="padding-top:13px;">TAX INVOICE</h5>
+          <div class="cs-border-1"></div>
+        </div>
 
-        @php
-        $formattedDateTime = Carbon::parse($invoice->check_in)->format('d-m-Y g:i A');
-        $formattedDateTimeout = Carbon::parse($invoice->check_out)->format('d-m-Y g:i A');
-        @endphp
+        <div class="cs-invoice_head cs-mb10 ">
+          <table class="header">
+            <tr>
+              <td width="30%">
+                <div class="cs-invoice_left cs-mr97">
+                  <b class="cs-primary_color" style="white-space:nowrap;">Customer Name:</b>
+                  <p class="cs-mb8">{{ $invoice->guest_name1 }}</p>
+                  <p><b class="cs-primary_color cs-semi_bold">Customer GSTIN:</b> <br>{{isset($invoice->guest_gst_no) ? $invoice->guest_gst_no : ''}}</p>
+                  <p><b class="cs-primary_color cs-semi_bold">GST Name:</b> <br>{{isset($invoice->guest_gst_name) ? $invoice->guest_gst_name : ''}}</p>
+                </div>
+              </td>
+              <td width="35%">
+                <div class="cs-invoice_right">
+                  <b class="cs-primary_color">Email:</b>
+                  <p>
+                    {{$invoice->guest_email}}
+                  </p>
+                  <b class="cs-primary_color">Check-In:</b>
+                  <p>
+                    {{$formattedDateTime}}
+                  </p>
+                </div>
+              </td>
+              <td width="35%">
+                <div class="cs-invoice_right">
+                  <b class="cs-primary_color">Mobile:</b>
+                  <p>
+                    {{$invoice->guest_mobile}}
+                  </p>
+                  <b class="cs-primary_color">Check-Out:</b>
+                  <p>
+                    {{$formattedDateTimeout}}
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </table>
 
-        <table style="width: 100%; border-collapse: collapse; text-align: center;">
-          <tr>
-            <td style="width: 40%; border: none !important;padding: 0;">
-              <div class="cs-border-1"></div>
-            </td>
-            <td style="width: 20%; border: none !important;padding: 0;">
-              <h5 class="cs-width_12 cs-dip_green_color" style="margin: 0;">TAX INVOICE</h5>
-            </td>
-            <td style="width: 40%; border: none !important;padding: 0;">
-              <div class="cs-border-1"></div>
-            </td>
-          </tr>
-        </table>
-
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <!-- Left Section (Bill To) -->
-            <td style="width: 50%; vertical-align: top; border: none !important; padding-right: 20px;">
-              <b class="cs-primary_color">Bill To:</b>
-              <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">GSTIN:</b> 4828E9B55BD92X6</p>
-              <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">Guest Name 1:</b> {{ $invoice->guest_name1 }}</p>
-              <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">Guest Name 2:</b> </p>
-              <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">Contact No:</b> {{$invoice->guest_mobile}}</p>
-            </td>
-
-            <!-- Right Section (Invoice Details) -->
-            <td style="width: 50%; vertical-align: top; border: none !important; text-align: right;">
-              <p style="margin: 0;"><b class="cs-primary_color">Invoice Date:</b> {{$invoice->invoice_date}}</p>
-              <p style="margin: 0;"><b class="cs-primary_color">Invoice No:</b> {{ $invoice->invoice_no }}</p>
-              <p style="margin: 0;"><b class="cs-primary_color">Check In:</b> {{$formattedDateTime}}</p>
-              <p style="margin: 0;"><b class="cs-primary_color">Check Out:</b> {{$formattedDateTimeout}}</p>
-            </td>
-          </tr>
-        </table>
+        </div>
+        <div class="cs-border"></div>
 
         <div class="cs-border cs-mb30"></div>
         <div class="cs-table cs-style2 cs-f12">
@@ -2093,14 +1912,14 @@ use Carbon\Carbon;
               <table>
                 <thead>
                   <tr class="cs-focus_bg">
-                    <th class="cs-width_3 cs-semi_bold cs-primary_color">Type</th>
-                    <th class="cs-width_1 cs-semi_bold cs-primary_color">Room No</th>
-                    <th class="cs-width_1 cs-semi_bold cs-primary_color">Category</th>
-                    <th class="cs-width_1 cs-semi_bold cs-primary_color">Extra Service</th>
-                    <th class="cs-width_1 cs-semi_bold cs-primary_color">Days / Quntity</th>
-                    <th class="cs-width_1 cs-semi_bold cs-primary_color">Amount</th>
-                    <th class="cs-width_1 cs-semi_bold cs-primary_color">GST</th>
-                    <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_right">Total</th>
+                    <th class="cs-width_1 cs-semi_bold cs-primary_color" style="border-right: 1px solid #eee;">Type</th>
+                    <th class="cs-width_1 cs-semi_bold cs-primary_color" style="border-right: 1px solid #eee;">Room No</th>
+                    <th class="cs-width_1 cs-semi_bold cs-primary_color" style="border-right: 1px solid #eee;">Category</th>
+                    <th class="cs-width_1 cs-semi_bold cs-primary_color" style="border-right: 1px solid #eee;">Extra service</th>
+                    <th class="cs-width_1 cs-semi_bold cs-primary_color" style="border-right: 1px solid #eee;">Days / Quntity</th>
+                    <th class="cs-width_1 cs-semi_bold cs-primary_color" style="border-right: 1px solid #eee;">Amount</th>
+                    <th class="cs-width_1 cs-semi_bold cs-primary_color" style="border-right: 1px solid #eee;">GST</th>
+                    <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_right" style="border-right: 1px solid #eee;">Total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2122,14 +1941,14 @@ use Carbon\Carbon;
                     }
                   ?>
                     <tr>
-                      <td><?= $invoicede->type ?></td>
-                      <td><?= $room_no ?></td>
-                      <td><?= $category_name ?></td>
-                      <td><?= $extra_name ?></td>
-                      <td><?= $invoicede->days ?></td>
-                      <td><?= $invoicede->amount ?></td>
-                      <td><?= ($invoicede->gst_percentage != 0 && $invoicede->gst_percentage != '') ? $invoicede->gst_percentage . ' %' : '-'; ?></td>
-                      <td class="cs-text_right cs-primary_color"><?= $invoicede->total_amount ?></td>
+                      <td style="border-right: 1px solid #eee;"><?= $invoicede->type ?></td>
+                      <td style="border-right: 1px solid #eee;"><?= $room_no ?></td>
+                      <td style="border-right: 1px solid #eee;"><?= $category_name ?></td>
+                      <td style="border-right: 1px solid #eee;"><?= $extra_name ?></td>
+                      <td style="border-right: 1px solid #eee;"><?= $invoicede->days ?></td>
+                      <td style="border-right: 1px solid #eee;"><?= $invoicede->amount ?></td>
+                      <td style="border-right: 1px solid #eee;"><?= ($invoicede->gst_percentage != 0 && $invoicede->gst_percentage != '') ? $invoicede->gst_percentage . ' %' : '-'; ?></td>
+                      <td class="cs-text_right cs-primary_color" style="border-right: 1px solid #eee;"><?= $invoicede->total_amount ?></td>
                     </tr>
                   <?php
                   } ?>
@@ -2143,24 +1962,16 @@ use Carbon\Carbon;
             <table>
               <tbody>
                 <tr class="cs-table_baseline">
-                  <td class="cs-width_6 cs-primary_color"> Here we can write a additional notes for
+                  <td class="cs-width_6 cs-primary_color" style="font-size:12px;"> Here we can write a additional notes for
                     the client to get a better understanding of this invoice.
 
                   </td>
                   <td class="cs-width_3 cs-text_right">
-                    <p class="cs-mb5 cs-mb5 cs-f15 cs-primary_color cs-semi_bold">Sub Total:</p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 ">Discount:</p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 ">Tax: 0%</p>
-                    <p class="cs-border border-none"></p>
+
                     <p class="cs-primary_color cs-bold cs-f16 cs-mb5 ">Total:</p>
                   </td>
                   <td class="cs-width_3 cs-text_rightcs-f16">
-                    <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">
-                      <?= $invoice->invoice_total ?>
-                    </p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 cs-text_right">0%</p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 cs-text_right">00.00</p>
-                    <p class="cs-border"></p>
+
                     <p class="cs-primary_color cs-bold cs-f16 cs-mb5 cs-text_right"><?= $invoice->invoice_total ?></p>
                   </td>
                 </tr>
