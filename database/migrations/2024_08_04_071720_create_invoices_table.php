@@ -28,6 +28,9 @@ class CreateInvoicesTable extends Migration
             $table->string('check_in')->nullable();
             $table->string('check_out')->nullable();
             $table->string('invoice_total')->nullable();
+            $table->string('discount_value')->default(0);
+            $table->string('discount_type')->default('fix');
+            $table->string('final_amount')->default(0);
             $table->timestamps();
 
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');

@@ -55,7 +55,6 @@ class AdminInvoiceController extends Controller
 
     public function createPDF($id)
     {
-
         $invoice = Invoice::findOrFail($id);
 
         if ($invoice->file != '') {
@@ -72,7 +71,8 @@ class AdminInvoiceController extends Controller
             'invoice' => $invoice,
             'invoicedetail' => $invoicedetail,
             'hoteldetail' => $hoteldetail,
-            'hotel' => $hotel
+            'hotel' => $hotel,
+            'discount_sign' => ($invoice->discount_type == 'fix') ? ' Rs.' : ' %',
         ];
 
         $pdf = PDF::loadView('admin.invoice.invoice_pdf', $data);
@@ -82,7 +82,28 @@ class AdminInvoiceController extends Controller
 
         $invoice->update(['file' => $fileName]);
 
-        return redirect('admin/invoice/edit/' . $invoice->id)->with('success', "Add Record Successfully");
+        return response()->file(public_path('invoices/' . $fileName));
+
+        // return redirect('admin/invoice/edit/' . $invoice->id)->with('success', "Add Record Successfully");
+    }
+
+    public function addDiscount(Request $request)
+    {
+        $invoice = Invoice::where('id', $request->invoice_id)->first();
+
+        $final = $invoice->invoice_total;
+
+        if ($request->discount_type == "fix") {
+            $final -= $request->discount_value;
+        }
+        if ($request->discount_type == "percentage" && $request->discount_value != 0) {
+            $discount_amount = ($invoice->invoice_total * $request->discount_value) / 100;
+            $final -= $discount_amount;
+        }
+
+        $invoice->update(['discount_value' => $request->discount_value, 'discount_type' => $request->discount_type, 'final_amount' => $final]);
+
+        return redirect('admin/invoice/edit/' . $invoice->id)->with('success', "Add discount successfully");
     }
 
     /**
@@ -137,7 +158,19 @@ class AdminInvoiceController extends Controller
         }
 
         $invoice = Invoice::where('id', $request->invoice_id)->first();
-        $invoice->update(['invoice_total' => $total]);
+        $final = $total;
+        $type = $invoice->discount_type ?? 'fix';
+        $value = $invoice->discount_value ?? 0;
+
+        if ($type == "fix") {
+            $final = $final - $value;
+        }
+        if ($type == "percentage" && $value != 0) {
+            $discount_amount = ($total * $value) / 100;
+            $final -= $discount_amount;
+        }
+
+        $invoice->update(['invoice_total' => $total, 'final_amount' => $final]);
 
         return redirect('admin/invoice/edit/' . $invoice->id)->with('success', "Add Record Successfully");
     }
@@ -203,6 +236,21 @@ class AdminInvoiceController extends Controller
         return redirect('admin/invoice/edit/' . $invoice->id)->with('success', "update Record Successfully");
     }
 
+    public function editInvoiceData($id)
+    {
+        $invoicedata = Invoicedata::findOrFail($id);
+        $invoice = Invoice::where('id', $invoicedata->invoice_id)->first();
+        $user = Session::get('user');
+        $hotels = Hotel::get();
+        if ($user->role != 'admin') {
+            $hotels = Hotel::where('hotel_name', $user->role)->get();
+        }
+        $categorys = Category::get();
+        $rooms = Room::where('hotel_id', $invoice->hotel_id)->get();
+        $extras = Extra::get();
+        return view('admin.invoice.editData', compact('invoice', 'hotels', 'categorys', 'rooms', 'extras', 'invoicedata'));
+    }
+
     public function updateInvoiceData(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -219,8 +267,10 @@ class AdminInvoiceController extends Controller
             return Redirect::back()->withInput($request->all())->withErrors($validator);
         }
 
+
         $invoiceData = Invoicedata::findOrFail($id);
         $input = $request->all();
+
         $invoiceData->update($input);
 
         $total = 0;
@@ -231,7 +281,20 @@ class AdminInvoiceController extends Controller
         }
 
         $invoice = Invoice::where('id', $request->invoice_id)->first();
-        $invoice->update(['invoice_total' => $total]);
+
+        $final = $total;
+        $type = $invoice->discount_type ?? 'fix';
+        $value = $invoice->discount_value ?? 0;
+
+        if ($type == "fix") {
+            $final -= $value;
+        }
+        if ($type == "percentage" && $value != 0) {
+            $discount_amount = ($total * $value) / 100;
+            $final -= $discount_amount;
+        }
+
+        $invoice->update(['invoice_total' => $total, 'final_amount' => $final]);
 
         return redirect('admin/invoice/edit/' . $request->invoice_id)->with('success', "update Record Successfully");
     }
@@ -260,11 +323,15 @@ class AdminInvoiceController extends Controller
         $getInvoice = Invoice::where('hotel_id', $hotel_id)->orderBy('id', 'DESC')->first();
         if ($getInvoice) {
             $lastInvoiceNo = $getInvoice->invoice_no;
-            $numericPart = substr($lastInvoiceNo, 2);
-            $newNumericPart = (int)$numericPart + 1;
-            $invoice_no = $setting->invoice_code . $newNumericPart;
+            $numericPart = (int) substr($lastInvoiceNo, strlen($setting->invoice_code));
+            $newNumericPart = $numericPart + 1;
+            $paddedNumber = str_pad($newNumericPart, 4, '0', STR_PAD_LEFT);
+            $invoice_no = $setting->invoice_code . $paddedNumber;
         } else {
-            $invoice_no = $setting->invoice_code . $setting->invoice_series;
+            $invoice_series = 1;
+            $paddedNumber = str_pad($invoice_series, 4, '0', STR_PAD_LEFT);
+            $invoice_no = $setting->invoice_code . $paddedNumber;
+            // $invoice_no = $setting->invoice_code . $setting->invoice_series;
         }
         $rooms = Room::where('hotel_id', $hotel_id)->get();
         return response()->json(['invoice_no' => $invoice_no, 'rooms' => $rooms]);
@@ -314,7 +381,20 @@ class AdminInvoiceController extends Controller
         }
 
         $invoice = Invoice::where('id', $invoicedata->invoice_id)->first();
-        $invoice->update(['invoice_total' => $total]);
+
+        $final = $total;
+        $type = $invoice->discount_type ?? 'fix';
+        $value = $invoice->discount_value ?? 0;
+
+        if ($type == "fix") {
+            $final -= $value;
+        }
+        if ($type == "percentage" && $value != 0) {
+            $discount_amount = ($total * $value) / 100;
+            $final -= $discount_amount;
+        }
+
+        $invoice->update(['invoice_total' => $total, 'final_amount' => $final]);
 
         return redirect('admin/invoice/edit/' . $invoice->id)->with('success', "Add Record Successfully");
     }

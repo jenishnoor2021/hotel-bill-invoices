@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth', 'usersession']], function () {
     Route::get('admin/invoice/destroyinvoicedata/{id}', [App\Http\Controllers\AdminInvoiceController::class, 'destroyInvoiceData'])->name('admin.invoicedata.destroy');
 
     Route::get('admin/invoice/createpdf/{id}', [App\Http\Controllers\AdminInvoiceController::class, 'createPDF'])->name('admin.invoice.pdf');
+    Route::post('admin/invoice/add-discount', [App\Http\Controllers\AdminInvoiceController::class, 'addDiscount'])->name('admin.invoice.add-discount');
 
     // Route::get("admin/image-page", [App\Http\Controllers\AdminSamplesController::class, 'imagePage'])->name('admin.image-page.index');
     // Route::patch("admin/form/image-upload/{id}", [App\Http\Controllers\AdminSamplesController::class, 'imageUpload'])->name('admin.image-upload.index');

@@ -84,7 +84,7 @@ class AdminHotelController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'c_name' => 'required',
+            'hotel_name' => 'required',
         ]);
 
         if ($validator->fails()) {
