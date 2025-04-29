@@ -2016,7 +2016,7 @@ use Carbon\Carbon;
                     <p class="cs-primary_color" style="margin: 0; font-size: 25px;">&nbsp;&nbsp;<b>Parth Enterprise</b></p>
                     <table>
                       <tr>
-                        <td class="cs-primary_color" style="border: none !important;padding:0;">&nbsp;&nbsp;&nbsp;<b>GSTIN:</b>4828E9B55BD92X6</td>
+                        <td class="cs-primary_color" style="border: none !important;padding:0;">&nbsp;&nbsp;&nbsp;<b>GSTIN:</b>24ABAFP6884C1Z9</td>
                       </tr>
                       <!--<tr>-->
                       <!--  <td class="cs-primary_color" style="padding-right: 15px; border: none !important;padding:0;"><b>GST Name:</b>{{$hoteldetail->gst_name}}</td>-->
@@ -2026,18 +2026,18 @@ use Carbon\Carbon;
                 </tr>
               </table>
             </td>
-            <td style="text-align: right; vertical-align: top; border: none !important;padding:0;">
+            <td style="vertical-align: top; border: none !important;padding:0;">
               <table style="width: 100%;">
                 <tr>
-                  <td style="text-align: right; border: none !important;font-size:25px;"><b>{{$hotel->hotel_name}}</b></td>
+                  <td style="text-align: right; border: none !important;font-size:15px;color:#000;"><b>{{$hotel->hotel_name}}</b></td>
                 </tr>
                 <tr>
-                  <td style="text-align: right; border: none !important;padding:0;">
+                  <td style="text-align: right; border: none !important;padding:0;color:#000;">
                     <b>Address:</b> {{ $hoteldetail->address }}
                   </td>
                 </tr>
                 <tr>
-                  <td style="text-align: right; border: none !important;padding:0;">
+                  <td style="text-align: right; border: none !important;padding:0;color:#000;">
                     <b>Contact No:</b> {{$hoteldetail->contact}}
                   </td>
                 </tr>
@@ -2070,14 +2070,14 @@ use Carbon\Carbon;
             <!-- Left Section (Bill To) -->
             <td style="width: 50%; vertical-align: top; border: none !important; padding-right: 20px;">
               <b class="cs-primary_color">Bill To:</b>
-              <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">GSTIN:</b> 4828E9B55BD92X6</p>
+              <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">GSTIN:</b> {{ $invoice->guest_gst_no }}</p>
               <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">Guest Name 1:</b> {{ $invoice->guest_name1 }}</p>
-              <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">Guest Name 2:</b> </p>
+              <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">Guest Name 2:</b> {{ $invoice->guest_name2 }}</p>
               <p style="margin: 0;"><b class="cs-primary_color cs-semi_bold">Contact No:</b> {{$invoice->guest_mobile}}</p>
             </td>
 
             <!-- Right Section (Invoice Details) -->
-            <td style="width: 50%; vertical-align: top; border: none !important; text-align: right;">
+            <td style="width: 50%; vertical-align: top; border: none !important;">
               <p style="margin: 0;"><b class="cs-primary_color">Invoice Date:</b> {{$invoice->invoice_date}}</p>
               <p style="margin: 0;"><b class="cs-primary_color">Invoice No:</b> {{ $invoice->invoice_no }}</p>
               <p style="margin: 0;"><b class="cs-primary_color">Check In:</b> {{$formattedDateTime}}</p>
@@ -2104,22 +2104,35 @@ use Carbon\Carbon;
                   </tr>
                 </thead>
                 <tbody>
-                  <?php foreach ($invoicedetail as $invoicede) {
+                  <?php
+                  $subtotal = 0;
+                  $totalgst = 0;
+                  foreach ($invoicedetail as $invoicede) {
+                    $cal = 0;
                     $room_no = '';
                     $category_name = '';
                     $extra_name = '';
                     if ($invoicede->room_no) {
                       $room = Room::where('id', $invoicede->room_no)->first();
-                      $room_no = $room->room_no;
+                      if ($room) {
+                        $room_no = $room->room_no;
+                      }
                     }
                     if ($invoicede->category_id) {
                       $category = Category::where('id', $invoicede->category_id)->first();
-                      $category_name = $category->c_name;
+                      if ($category) {
+                        $category_name = $category->c_name;
+                      }
                     }
                     if ($invoicede->extra_id) {
                       $extra = Extra::where('id', $invoicede->extra_id)->first();
-                      $extra_name = $extra->name;
+                      if ($extra) {
+                        $extra_name = $extra->name;
+                      }
                     }
+                    $cal = ($invoicede->amount) * ($invoicede->days);
+                    $subtotal += $cal;
+                    $totalgst += ($invoicede->total_amount - $cal);
                   ?>
                     <tr>
                       <td><?= $invoicede->type ?></td>
@@ -2143,25 +2156,35 @@ use Carbon\Carbon;
             <table>
               <tbody>
                 <tr class="cs-table_baseline">
-                  <td class="cs-width_6 cs-primary_color"> Here we can write a additional notes for
-                    the client to get a better understanding of this invoice.
-
+                  <td class="cs-width_6 cs-primary_color"> This is a computer generated bill and does not require signature.
                   </td>
                   <td class="cs-width_3 cs-text_right">
                     <p class="cs-mb5 cs-mb5 cs-f15 cs-primary_color cs-semi_bold">Sub Total:</p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 ">Discount:</p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 ">Tax: 0%</p>
+                    <p class="cs-mb5 cs-mb5 cs-f15 cs-primary_color cs-semi_bold">GST amount:</p>
+                    <?php if ($invoice->discount_value != 0) { ?>
+                      <p class="cs-mb5 cs-mb5 cs-f15 cs-primary_color cs-semi_bold">Discount:</p>
+                    <?php } ?>
+
+                    <!-- <p class="cs-primary_color cs-bold cs-f16 cs-mb5 ">Tax: 0%</p> -->
                     <p class="cs-border border-none"></p>
                     <p class="cs-primary_color cs-bold cs-f16 cs-mb5 ">Total:</p>
                   </td>
                   <td class="cs-width_3 cs-text_rightcs-f16">
                     <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">
-                      <?= $invoice->invoice_total ?>
+                      <?= $subtotal ? number_format($subtotal, 2) : 0; ?>
                     </p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 cs-text_right">0%</p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 cs-text_right">00.00</p>
+                    <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">
+                      <?= $totalgst ? number_format($totalgst, 2) : 0; ?>
+                    </p>
+                    <?php if ($invoice->discount_value != 0) { ?>
+                      <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">
+                        <?= ($invoice->discount_value ?? 0) . $discount_sign ?>
+                      </p>
+                    <?php } ?>
+                    <!-- <p class="cs-primary_color cs-bold cs-f16 cs-mb5 cs-text_right">00.00</p> -->
                     <p class="cs-border"></p>
-                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 cs-text_right"><?= $invoice->invoice_total ?></p>
+                    <p class="cs-primary_color cs-bold cs-f16 cs-mb5 cs-text_right">
+                      <?= number_format($invoice->final_amount, 2) ?>
                   </td>
                 </tr>
               </tbody>
