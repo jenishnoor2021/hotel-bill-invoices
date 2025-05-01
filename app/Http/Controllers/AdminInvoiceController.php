@@ -14,6 +14,8 @@ use App\Models\Invoicedata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Exports\InvoicesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminInvoiceController extends Controller
 {
@@ -397,5 +399,33 @@ class AdminInvoiceController extends Controller
         $invoice->update(['invoice_total' => $total, 'final_amount' => $final]);
 
         return redirect('admin/invoice/edit/' . $invoice->id)->with('success', "Add Record Successfully");
+    }
+
+    public function export(Request $request)
+    {
+        $hotels = Hotel::get();
+        $data = [];
+        if ($request->filled('hotel_id')) {
+            $invoices = Invoice::query();
+            if ($request->filled('start_date')) {
+                $invoices->where('check_in', '>=', $request->start_date);
+            }
+
+            if ($request->filled('end_date')) {
+                $invoices->where('check_in', '<=', $request->end_date);
+            }
+
+            $invoices->where('hotel_id', $request->hotel_id);
+            $data = $invoices->get();
+
+            // dd($data);
+
+            if ($data->isEmpty()) {
+                return redirect()->back()->with('error', 'No data found.');
+            }
+
+            return Excel::download(new InvoicesExport($data), 'invoices.xlsx');
+        }
+        return view('admin.invoice.export', compact('hotels'));
     }
 }

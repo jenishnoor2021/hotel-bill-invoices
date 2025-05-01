@@ -201,6 +201,7 @@
           <li class="{{ (request()->segment(2) == 'room') ? 'active' : '' }}"><a href="/admin/room"><i class="fa fa-dashboard"></i> <span>Room</span></a></li>
           <li class="{{ (request()->segment(2) == 'extra') ? 'active' : '' }}"><a href="/admin/extra"><i class="fa fa-dashboard"></i> <span>Extra Service</span></a></li>
           <li class="{{ (request()->segment(2) == 'users') ? 'active' : '' }}"><a href="/admin/users"><i class="fa fa-dashboard"></i> <span>Users</span></a></li>
+          <li class="{{ (request()->segment(2) == 'export') ? 'active' : '' }}"><a href="/admin/export"><i class="fa fa-dashboard"></i> <span>Export Excel</span></a></li>
           <li class="{{ (request()->segment(1) == 'profile') ? 'active' : '' }}"><a href="/profile/{{Session::get('user')['id']}}"><i class="fa fa-dashboard"></i><span>Change password</span></a></li>
           @endif
         </ul>
