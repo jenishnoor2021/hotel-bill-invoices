@@ -34,6 +34,7 @@
                </div>
                {!! Form::open(['method'=>'GET', 'action'=> 'AdminInvoiceController@export','files'=>true,'class'=>'form-horizontal', 'name'=>'addinvoiceform']) !!}
                @csrf
+               <input type="hidden" name="download" id="downloadFlag" value="0">
                <div class="box-body">
                   <div class="form-group">
                      <label for="hotel_id" class="col-sm-2 control-label">Hotel name</label>
@@ -68,8 +69,9 @@
                   </div>
 
                   <div class="form-group">
-                     <div class="col-md-3 col-sm-2 control-label">
-                        {!! Form::submit('Add', ['class'=>'btn btn-success text-white mt-1']) !!}
+                     <div class="col-md-5 col-sm-2 control-label">
+                        <button type="submit" class="btn btn-primary mt-1" onclick="document.getElementById('downloadFlag').value = 0">Preview</button>
+                        <button type="submit" class="btn btn-success mt-1" onclick="document.getElementById('downloadFlag').value = 1">Download Excel</button>
                      </div>
                   </div>
                </div>
@@ -80,6 +82,68 @@
          <!--/.col (right) -->
       </div>
       <!-- /.row -->
+      @if(isset($data) && count($data) > 0)
+      <div class="row">
+         <div class="col-md-12">
+            <div class="box">
+               <div class="box-body" style="overflow-x:auto;margin-top:15px">
+
+                  <!-- <div class="table-responsive mt-4"> -->
+                  <table class="table table-bordered table-striped">
+                     <thead class="bg-primary">
+                        <tr>
+                           <th>ID</th>
+                           <th>Hotel Name</th>
+                           <th>Invoice no</th>
+                           <th>Invoice Date</th>
+                           <th>Guest name1</th>
+                           <th>Guest name2</th>
+                           <th>Email</th>
+                           <th>mobile</th>
+                           <th>GST no</th>
+                           <th>GST Name</th>
+                           <th>Check-In</th>
+                           <th>Check-Out</th>
+                           <th>Net Amount</th>
+                           <th>Amount with GST</th>
+                           <th>Discount</th>
+                           <th>Ground Total</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        @foreach($data as $invoice)
+                        @php
+                        $amount = \App\Models\Invoicedata::where('invoice_id', $invoice->id)->sum('amount');
+                        $amountWithGst = \App\Models\Invoicedata::where('invoice_id', $invoice->id)->sum('total_amount');
+                        $type = $invoice->discount_type === 'fix' ? 'Rs' : '%';
+                        @endphp
+                        <tr>
+                           <td>{{ $invoice->id }}</td>
+                           <td>{{ $invoice->hotel->hotel_name ?? '' }}</td>
+                           <td>{{ $invoice->invoice_no }}</td>
+                           <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d-m-Y') }}</td>
+                           <td>{{ $invoice->guest_name1 ?? '' }}</td>
+                           <td>{{ $invoice->guest_name2 ?? '' }}</td>
+                           <td>{{ $invoice->guest_email ?? '' }}</td>
+                           <td>{{ $invoice->guest_mobile ?? '' }}</td>
+                           <td>{{ $invoice->guest_gst_no ?? '' }}</td>
+                           <td>{{ $invoice->guest_gst_name ?? '' }}</td>
+                           <td>{{ \Carbon\Carbon::parse($invoice->check_in)->format('d-m-Y') }}</td>
+                           <td>{{ \Carbon\Carbon::parse($invoice->check_out)->format('d-m-Y') }}</td>
+                           <td>{{ $amount }}</td>
+                           <td>{{ $amountWithGst }}</td>
+                           <td>{{ $invoice->discount_value }} {{ $type }}</td>
+                           <td>{{ $invoice->final_amount }}</td>
+                        </tr>
+                        @endforeach
+                     </tbody>
+                  </table>
+                  <!-- </div> -->
+               </div>
+            </div>
+         </div>
+      </div>
+      @endif
    </section>
    <!-- /.content -->
 </div>

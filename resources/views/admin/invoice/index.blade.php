@@ -32,6 +32,18 @@
                      {{ session('error') }}
                   </div>
                   @endif
+
+                  <div class="row">
+                     <form method="GET" action="{{ route('admin.invoice.index') }}" class="col-md-3">
+                        <select name="hotel_id" id="hotel_id" class="custom-select form-control form-control-rounded" onchange="this.form.submit()" required>
+                           <option value="">Show ALL Hotels invoices</option>
+                           @foreach($AllHotels as $hotel)
+                           <option value="{{$hotel->id}}" {{ request()->hotel_id == $hotel->id ? 'selected' : '' }}>{{$hotel->hotel_name}}</option>
+                           @endforeach
+                        </select>
+                     </form>
+                  </div>
+
                </div>
                @if(count($invoices)>0)
                <!-- /.box-header -->

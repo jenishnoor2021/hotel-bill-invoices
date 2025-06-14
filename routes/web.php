@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth', 'usersession']], function () {
     // Route::get("admin/image-page", [App\Http\Controllers\AdminSamplesController::class, 'imagePage'])->name('admin.image-page.index');
     // Route::patch("admin/form/image-upload/{id}", [App\Http\Controllers\AdminSamplesController::class, 'imageUpload'])->name('admin.image-upload.index');
 
-    Route::get("admin/users", [App\Http\Controllers\AdminUsersController::class, 'index'])->name('admin.invoice.index');
+    Route::get("admin/users", [App\Http\Controllers\AdminUsersController::class, 'index'])->name('admin.users.index');
     Route::get('admin/users/create', [App\Http\Controllers\AdminUsersController::class, 'create'])->name('admin.users.create');
     Route::post('admin/users/store', [App\Http\Controllers\AdminUsersController::class, 'store'])->name('admin.users.store');
     Route::get('admin/users/edit/{id}', [App\Http\Controllers\AdminUsersController::class, 'edit'])->name('admin.users.edit');

@@ -24,16 +24,26 @@ class AdminInvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Session::get('user');
-        $invoices = Invoice::orderBy('id', 'DESC')->get();
-        if ($user->role != 'admin') {
+
+        if ($user->role == 'admin') {
+            $query = Invoice::orderBy('id', 'DESC');
+
+            if ($request->filled('hotel_id')) {
+                $query->where('hotel_id', $request->hotel_id);
+            }
+
+            $invoices = $query->get();
+            $AllHotels = Hotel::get();
+        } else {
             $hotel = Hotel::where('hotel_name', $user->role)->first();
             $invoices = Invoice::where('hotel_id', $hotel->id)->orderBy('id', 'DESC')->get();
+            $AllHotels = Hotel::where('hotel_name', $user->role)->get();
         }
 
-        return view('admin.invoice.index', compact('invoices'));
+        return view('admin.invoice.index', compact('invoices', 'AllHotels'));
     }
 
     /**
@@ -408,11 +418,11 @@ class AdminInvoiceController extends Controller
         if ($request->filled('hotel_id')) {
             $invoices = Invoice::query();
             if ($request->filled('start_date')) {
-                $invoices->where('check_in', '>=', $request->start_date);
+                $invoices->whereDate('invoice_date', '>=', $request->start_date);
             }
 
             if ($request->filled('end_date')) {
-                $invoices->where('check_in', '<=', $request->end_date);
+                $invoices->whereDate('invoice_date', '<=', $request->end_date);
             }
 
             $invoices->where('hotel_id', $request->hotel_id);
@@ -424,7 +434,11 @@ class AdminInvoiceController extends Controller
                 return redirect()->back()->with('error', 'No data found.');
             }
 
-            return Excel::download(new InvoicesExport($data), 'invoices.xlsx');
+            if ($request->has('download') && $request->download === '1') {
+                return Excel::download(new InvoicesExport($data), 'invoices.xlsx');
+            }
+
+            return view('admin.invoice.export', compact('hotels', 'data'));
         }
         return view('admin.invoice.export', compact('hotels'));
     }
