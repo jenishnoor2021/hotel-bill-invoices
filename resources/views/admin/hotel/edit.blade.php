@@ -4,7 +4,7 @@
 <div class="content-wrapper">
    <!-- Content Header (Page header) -->
    <section class="content-header" style="display: flex; align-items: center;">
-      <a href="{{ URL::to('/admin/category') }}"><i class="fa fa-arrow-circle-left" style="font-size:35px;color:red"></i></a>
+      <a href="{{ URL::to('/admin/hotel') }}"><i class="fa fa-arrow-circle-left" style="font-size:35px;color:red"></i></a>
       <h1 style="margin-left: 10px;">
          Edit Hotel
       </h1>

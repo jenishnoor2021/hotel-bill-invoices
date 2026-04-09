@@ -325,28 +325,81 @@ class AdminInvoiceController extends Controller
         return Redirect::back()->with('success', "Delete Record Successfully");
     }
 
+    // public function getDetail(Request $request)
+    // {
+    //     $hotel_id = $request->input('hotel_id');
+    //     $setting = Setting::where('hotel_id', $hotel_id)->first();
+    //     if (!isset($setting)) {
+    //         return response()->json(['error' => 'No data found']);
+    //     }
+    //     $getInvoice = Invoice::where('hotel_id', $hotel_id)->orderBy('id', 'DESC')->first();
+    //     if ($getInvoice) {
+    //         $lastInvoiceNo = $getInvoice->invoice_no;
+    //         $numericPart = (int) substr($lastInvoiceNo, strlen($setting->invoice_code));
+    //         $newNumericPart = $numericPart + 1;
+    //         $paddedNumber = str_pad($newNumericPart, 4, '0', STR_PAD_LEFT);
+    //         $invoice_no = $setting->invoice_code . $paddedNumber;
+    //     } else {
+    //         $invoice_series = 1;
+    //         $paddedNumber = str_pad($invoice_series, 4, '0', STR_PAD_LEFT);
+    //         $invoice_no = $setting->invoice_code . $paddedNumber;
+    //         // $invoice_no = $setting->invoice_code . $setting->invoice_series;
+    //     }
+    //     $rooms = Room::where('hotel_id', $hotel_id)->get();
+    //     return response()->json(['invoice_no' => $invoice_no, 'rooms' => $rooms]);
+    // }
+
     public function getDetail(Request $request)
     {
         $hotel_id = $request->input('hotel_id');
+
         $setting = Setting::where('hotel_id', $hotel_id)->first();
-        if (!isset($setting)) {
+
+        if (!$setting) {
             return response()->json(['error' => 'No data found']);
         }
-        $getInvoice = Invoice::where('hotel_id', $hotel_id)->orderBy('id', 'DESC')->first();
-        if ($getInvoice) {
-            $lastInvoiceNo = $getInvoice->invoice_no;
-            $numericPart = (int) substr($lastInvoiceNo, strlen($setting->invoice_code));
-            $newNumericPart = $numericPart + 1;
-            $paddedNumber = str_pad($newNumericPart, 4, '0', STR_PAD_LEFT);
-            $invoice_no = $setting->invoice_code . $paddedNumber;
+
+        $invoice_code = $setting->invoice_code;              // Prefix (e.g. INV)
+        $series = (string) $setting->invoice_series;         // e.g. 1 / 01 / 0001
+
+        $padLength = strlen($series);                        // decide padding
+        $startNumber = (int) $series;                        // starting number
+
+        // ✅ Get last invoice with SAME prefix
+        $lastInvoice = Invoice::where('hotel_id', $hotel_id)
+            ->where('invoice_no', 'like', $invoice_code . '%')
+            ->latest()
+            ->first();
+
+        if ($lastInvoice) {
+
+            // Extract numeric part
+            $lastNumberStr = substr($lastInvoice->invoice_no, strlen($invoice_code));
+            $lastNumber = (int) $lastNumberStr;
+
+            $newNumber = $lastNumber + 1;
         } else {
-            $invoice_series = 1;
-            $paddedNumber = str_pad($invoice_series, 4, '0', STR_PAD_LEFT);
-            $invoice_no = $setting->invoice_code . $paddedNumber;
-            // $invoice_no = $setting->invoice_code . $setting->invoice_series;
+
+            // First invoice for this prefix
+            $newNumber = $startNumber;
         }
+
+        // ✅ Apply dynamic padding
+        if ($padLength > 1) {
+            $formattedNumber = str_pad($newNumber, $padLength, '0', STR_PAD_LEFT);
+        } else {
+            $formattedNumber = $newNumber;
+        }
+
+        $invoice_no = $invoice_code . $formattedNumber;
+
+        // Get rooms
         $rooms = Room::where('hotel_id', $hotel_id)->get();
-        return response()->json(['invoice_no' => $invoice_no, 'rooms' => $rooms]);
+
+        return response()->json([
+            'invoice_no' => $invoice_no,
+            'rooms' => $rooms
+        ]);
     }
 
     public function getRoomDetail(Request $request)
