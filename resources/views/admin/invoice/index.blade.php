@@ -1,3 +1,8 @@
+<?php
+
+use Carbon\Carbon;
+?>
+
 @extends('layouts.admin')
 @section('style')
 @stop
@@ -75,6 +80,9 @@
                            </td>
                            <td>{{$invoice->hotel->hotel_name}}</td>
                            <td>{{$invoice->invoice_no}}</td>
+                           @php
+                           $invoiceDate = Carbon::parse($invoice->invoice_date)->format('d-m-Y');
+                           @endphp
                            <td>{{$invoice->invoice_date}}</td>
                            <td>{{$invoice->guest_name1}}</td>
                            <td>{{$invoice->guest_email}}</td>

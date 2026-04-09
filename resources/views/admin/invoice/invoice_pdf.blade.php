@@ -1160,6 +1160,7 @@ use Carbon\Carbon;
         </table>
 
         @php
+        $invoiceDate = Carbon::parse($invoice->invoice_date)->format('d-m-Y');
         $formattedDateTime = Carbon::parse($invoice->check_in)->format('d-m-Y g:i A');
         $formattedDateTimeout = Carbon::parse($invoice->check_out)->format('d-m-Y g:i A');
         @endphp
@@ -1191,7 +1192,7 @@ use Carbon\Carbon;
 
             <!-- Right Section (Invoice Details) -->
             <td style="width: 50%; vertical-align: top; border: none !important;">
-              <p style="margin: 0;"><b class="cs-primary_color">Invoice Date:</b> {{$invoice->invoice_date}}</p>
+              <p style="margin: 0;"><b class="cs-primary_color">Invoice Date:</b> {{$invoiceDate}}</p>
               <p style="margin: 0;"><b class="cs-primary_color">Invoice No:</b> {{ $invoice->invoice_no }}</p>
               <p style="margin: 0;"><b class="cs-primary_color">Check In:</b> {{$formattedDateTime}}</p>
               <p style="margin: 0;"><b class="cs-primary_color">Check Out:</b> {{$formattedDateTimeout}}</p>

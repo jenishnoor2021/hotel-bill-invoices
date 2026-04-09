@@ -48,10 +48,12 @@ class AdminController extends Controller
         $heaven_count = Invoice::where('hotel_id', 1)->count();
         $orbit_count = Invoice::where('hotel_id', 2)->count();
         $olympia_count = Invoice::where('hotel_id', 3)->count();
+        $olive_count = Invoice::where('hotel_id', 4)->count();
         $heaven_amount = Invoice::where('hotel_id', 1)->sum('invoice_total');
         $orbit_amount = Invoice::where('hotel_id', 2)->sum('invoice_total');
         $olympia_amount = Invoice::where('hotel_id', 3)->sum('invoice_total');
-        return view('admin.index', compact('heaven_count', 'orbit_count', 'olympia_count', 'heaven_amount', 'orbit_amount', 'olympia_amount'));
+        $olive_amount = Invoice::where('hotel_id', 4)->sum('invoice_total');
+        return view('admin.index', compact('heaven_count', 'orbit_count', 'olympia_count', 'olive_count', 'heaven_amount', 'orbit_amount', 'olympia_amount', 'olive_amount'));
     }
 
     public function profiledit($id)
